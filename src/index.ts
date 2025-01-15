@@ -11,7 +11,7 @@ const [parentFolders, domainName] = [
   inputtedStructure[inputtedStructure.length - 1]
 ];
 
-import config from '../autocode.config.json';
+// import config from '../autocode.config.json';
 import { tradePlaceholderForValue } from './utils/text/tradePlaceholdersForValue';
 
 let count = 0;
@@ -70,4 +70,4 @@ const createNecessaryFolders = (currentPath: string, entryContent: {} | string[]
   });
 }
 
-createNecessaryFolders(process.cwd(), config.structure);
+// createNecessaryFolders(process.cwd(), config.structure);
