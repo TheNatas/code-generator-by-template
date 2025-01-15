@@ -3,47 +3,17 @@
     "src": {
       "1 - presentation": {
         "routes": {
-          "[template]": [
-            "get-list.route.ts",
-            "get-by-id.route.ts"
-          ]
+          "crud": {
+            "[template]": [
+              "[template].routes.ts"
+            ]
+          }
         },
-        "controllers": "[template].controller.ts"
-      },
-      "2 - application": {
-        "services": "[template].service.ts",
-        "use-cases": {
+        "controllers": {
           "[template]": [
-            "get-list.use-case.ts",
-            "get-by-id.use-case.ts"
-          ]
-        },
-        "results": {
-          "[template]": [
-            "get-list.result.ts",
-            "get-by-id.result.ts"
-          ]
-        },
-        "mappers": {
-          "[template]": [
-            "get-list.mapper.ts",
-            "get-by-id.mapper.ts"
-          ]
-        },
-        "dtos": {
-          "[template]": [
-            "get-list.dto.ts",
-            "get-by-id.dto.ts"
+            "get-[template].controller.ts"
           ]
         }
-      },
-      "3 - domain": {
-        "entities": "[template].entity.ts",
-        "value-objects": "[template].value-object.ts",
-        "repositories": "[template].repository.ts"
-      },
-      "4 - infrastructure": {
-        "repositories": "[template].repository.ts"
       }
     }
   }

@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "rootDir": "./src",
+    "lib": ["ES2024"]
   },
-  "extends": "@tsconfig/node20/tsconfig.json",
-  "include": ["src/**/*"],
-  "exclude": ["**/*.spec.ts"]
+  //"extends": "@tsconfig/node20/tsconfig.json",
+  "include": ["src/**/*.ts"],
 }

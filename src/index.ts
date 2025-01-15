@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { splitExtensionFromFileName } from './utils/file/splitExtensionFromFileName';
 
 const [pathToScript, ...args] = process.argv.slice(1);
 
@@ -11,19 +12,24 @@ const [parentFolders, domainName] = [
 ];
 
 import config from '../autocode.config.json';
+import { tradePlaceholderForValue } from './utils/text/tradePlaceholdersForValue';
 
-const createNecessaryFolders = (currentPath: string, entryContent: {} | [] | string) => {
+let count = 0;
+
+const createNecessaryFolders = (currentPath: string, entryContent: {} | string[] | string) => {
   const currentPathDirectoryItems = fs.readdirSync(currentPath, { withFileTypes: true });
 
   (
     Array.isArray(entryContent) ? 
-      entryContent.map((item) => [item]) : 
+      entryContent.map((item: string) => [item]) : 
       Object.entries(entryContent)
   ).forEach(([itemName, itemContent]) => {
-    const isTemplate = itemName === '[template]';
+    const isTemplate = itemName.includes('[template]');
 
-    const currentPathHasParentFolders = currentPath.includes(parentFolders.join('/'));
-    if (isTemplate && parentFolders.length > 0 && !currentPathHasParentFolders) {
+    const hasParentFolders = parentFolders.length > 0;
+    const currentPathHasParentFolders = currentPath.includes(path.join(...parentFolders));
+
+    if (isTemplate && hasParentFolders && !currentPathHasParentFolders) {
       createNecessaryFolders(
         currentPath, 
         [...parentFolders].reverse().reduce(
@@ -32,25 +38,33 @@ const createNecessaryFolders = (currentPath: string, entryContent: {} | [] | str
         )
       );
     } else {
-      const itemNameToUse = isTemplate ? itemName.replace('[template]', domainName) : itemName;
+      const isFile = !itemContent;
+
+      const itemNameWithoutPlaceholders = isTemplate ? 
+        itemName.replace('[template]', domainName) : 
+        itemName;
+      const { fileName: itemNameWithoutExtension, extension } = isFile ? 
+        splitExtensionFromFileName(itemNameWithoutPlaceholders) : 
+        { fileName: itemNameWithoutPlaceholders, extension: '' };
 
       const itemExists = currentPathDirectoryItems.some(
-        item => /*item.isDirectory() &&*/ item.name === itemNameToUse
+        item => item.name === itemNameWithoutExtension + (isFile ? '.' + extension : '')
       );
       if (!itemExists) {
-        const isFile = !itemContent;
         if (isFile) {
+          const templateFile = fs.readFileSync(path.join(process.cwd(), 'templates', splitExtensionFromFileName(itemName).fileName + '.txt'), 'utf8');
+
           fs.writeFileSync(
-            path.join(currentPath, itemNameToUse), 
-            '' // TODO: Add template content
+            path.join(currentPath, itemNameWithoutExtension + '.' + extension), 
+            tradePlaceholderForValue(templateFile, domainName, '[template]')
           );
         } else {
-          fs.mkdirSync(currentPath + '/' + itemNameToUse);
+          fs.mkdirSync(path.join(currentPath, itemNameWithoutExtension));
         }
       }
 
-      if ((Array.isArray(entryContent) ? entryContent : Object(itemContent).keys()).length > 0) {
-        createNecessaryFolders(currentPath + '/' + itemNameToUse, itemContent as {});
+      if (itemContent && ((Array.isArray(itemContent) ? itemContent : Object.keys(itemContent)).length > 0)) {
+        createNecessaryFolders(path.join(currentPath, itemNameWithoutExtension), itemContent as {});
       }
     }
   });

@@ -2,9 +2,10 @@
   "name": "autocode",
   "version": "1.0.0",
   "description": "Automate your coding process through auto generated code by command lines.",
-  "main": "dist/index.js",
+  "main": "dist/generateSingleFile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "npx tsc --project tsconfig.json"
   },
   "repository": {
     "type": "git",
