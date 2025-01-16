@@ -5,10 +5,7 @@ import path from 'path';
 import { splitExtensionFromFileName, tradePlaceholderForValue } from './utils';
 import { 
   PLACEHOLDER_ESCAPE_CHARACTER, 
-  PLACEHOLDER_PREFIX, 
   PLACEHOLDER_REGEX, 
-  PLACEHOLDER_SUFFIX, 
-  TEMPLATE_PLACEHOLDER, 
   TEMPLATES_FOLDER 
 } from './consts';
 
@@ -76,11 +73,7 @@ const createFile = (fileNameWithExtension: string, fileName: string, templateFil
   fs.writeFileSync(
     path.join(currentPath, fileNameWithExtension), 
     formatFileFromExtraArgs(
-      tradePlaceholderForValue(
-        templateFile, 
-        fileName, 
-        `${PLACEHOLDER_PREFIX}${TEMPLATE_PLACEHOLDER}${PLACEHOLDER_SUFFIX}`
-      ), 
+      templateFile, 
       formattedExtraArgs
     )
   );
