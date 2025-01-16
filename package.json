@@ -1,6 +1,6 @@
 {
   "name": "code-generator-by-template",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Automate your coding process through auto generated code by providing a template.",
   "main": "dist/generateSingleFile.js",
   "bin": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "npx tsc --project tsconfig.json"
+    "compile": "npx tsc --project tsconfig.json && node scripts/add-shebang.js"
   },
   "repository": {
     "type": "git",
