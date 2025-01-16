@@ -1,7 +1,7 @@
 {
-  "name": "autocode",
+  "name": "code-generator-by-template",
   "version": "1.0.0",
-  "description": "Automate your coding process through auto generated code by command lines.",
+  "description": "Automate your coding process through auto generated code by providing a template.",
   "main": "dist/generateSingleFile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,21 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TheNatas/autocode.git"
+    "url": "git+https://github.com/TheNatas/code-generator-by-template.git"
   },
   "keywords": [
     "code",
     "generation",
     "automation",
-    "design",
-    "pattern"
+    "template"
   ],
   "author": "Natanael Alves Gabriel",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TheNatas/autocode/issues"
+    "url": "https://github.com/TheNatas/code-generator-by-template/issues"
   },
-  "homepage": "https://github.com/TheNatas/autocode#readme",
+  "homepage": "https://github.com/TheNatas/code-generator-by-template#readme",
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^22.10.6",
