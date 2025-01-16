@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Automate your coding process through auto generated code by providing a template.",
   "main": "dist/generateSingleFile.js",
+  "bin": {
+    "generate": "./dist/generateSingleFile.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "npx tsc --project tsconfig.json"
