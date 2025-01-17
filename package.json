@@ -4,7 +4,8 @@
   "description": "Automate your coding process through auto generated code by providing a template.",
   "main": "dist/generateSingleFile.js",
   "bin": {
-    "generate": "./dist/generateSingleFile.js"
+    "generate-file": "./dist/generateSingleFile.js",
+    "generate-structure": "./dist/generateMultipleFiles.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

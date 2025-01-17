@@ -1,0 +1,24 @@
+{
+  "src": {
+    "1 - presentation": {
+      "routes": {
+        "[template]": [
+          "get-[plural].route.ts",
+          "get-[template]-by-id.route.ts",
+          "save-[template].route.ts",
+          "delete-[template].route.ts",
+          "index.route.ts"
+        ]
+      },
+      "controllers": {
+        "[template]": [
+          "get-[plural].route.ts",
+          "get-[template]-by-id.route.ts",
+          "save-[template].route.ts",
+          "delete-[template].route.ts",
+          "index.route.ts"
+        ]
+      }
+    }
+  }
+}

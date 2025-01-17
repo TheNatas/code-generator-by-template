@@ -1,20 +1,25 @@
+// TODO: make this executable from the command line through a distinct command
 import fs from 'fs';
 import path from 'path';
-import { splitExtensionFromFileName } from './utils/file/splitExtensionFromFileName';
+import { splitExtensionFromFileName, tradePlaceholderForValue } from './utils';
+import { DEFAULT_DESIGN_PATTERN_FILE_PATH } from './consts';
 
-const [pathToScript, ...args] = process.argv.slice(1);
+const args = process.argv.slice(2);
 
 const inputtedStructure = args[0].split('/');
+const inputtedPathToConfigFile = args[1];
 
 const [parentFolders, domainName] = [
   inputtedStructure.slice(0, -1), 
   inputtedStructure[inputtedStructure.length - 1]
 ];
 
-// import config from '../autocode.config.json';
-import { tradePlaceholderForValue } from './utils/text/tradePlaceholdersForValue';
+const pathToConfigFile = inputtedPathToConfigFile ?
+  path.join(process.cwd(), ...inputtedPathToConfigFile.split('/')) :
+  path.join(process.cwd(), DEFAULT_DESIGN_PATTERN_FILE_PATH);
 
-let count = 0;
+const configFile = fs.readFileSync(pathToConfigFile, 'utf8');
+const config = JSON.parse(configFile);
 
 const createNecessaryFolders = (currentPath: string, entryContent: {} | string[] | string) => {
   const currentPathDirectoryItems = fs.readdirSync(currentPath, { withFileTypes: true });
@@ -70,4 +75,4 @@ const createNecessaryFolders = (currentPath: string, entryContent: {} | string[]
   });
 }
 
-// createNecessaryFolders(process.cwd(), config.structure);
+createNecessaryFolders(process.cwd(), config.structure);

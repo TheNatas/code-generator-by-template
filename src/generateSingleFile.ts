@@ -2,22 +2,36 @@
 
 import fs from 'fs';
 import path from 'path';
-import { splitExtensionFromFileName, tradePlaceholderForValue } from './utils';
+import { splitExtensionFromFileName, formatProgramVariables } from './utils';
 import { 
-  PLACEHOLDER_ESCAPE_CHARACTER, 
-  PLACEHOLDER_REGEX, 
+  INPUT_KEY_VALUE_SEPARATOR,
+  INPUT_PATH_SEPARATOR,
+  TEMPLATE_FILE_EXTENSION,
   TEMPLATES_FOLDER 
 } from './consts';
+import { formatTextFromParameters } from './utils/text/formatTextFromParameters';
 
-const [inputtedStructureParam, inputtedTemplatePath, ...extraArgs] = process.argv.slice(2);
+const programArgs = process.argv.slice(2);
 
-const formattedExtraArgs = extraArgs.reduce((state, arg) => {
-  const [key, value] = arg.split('=');
+if (programArgs.length < 1) {
+  throw new Error('Usage: generate <structure> [templatePath] [extraArgs]');
+}
 
-  return { ...state, [key]: value };
-}, {});
+const { inputtedStructureParam, inputtedTemplatePath, extraArgs } = programArgs.reduce((state, arg, index) => {
+  if (index === 0) {
+    return { ...state, inputtedStructureParam: arg };
+  }
+  if (index === 1 && !arg.includes(INPUT_KEY_VALUE_SEPARATOR)) {
+    return { ...state, inputtedTemplatePath: arg };
+  }
+  else {
+    return { ...state, extraArgs: [...state.extraArgs || [], arg] };
+  }
+}, {} as { inputtedStructureParam: string, inputtedTemplatePath?: string, extraArgs?: string[] });
 
-const inputtedStructure = inputtedStructureParam.split('/');
+const formattedExtraArgs = formatProgramVariables(extraArgs);
+
+const inputtedStructure = inputtedStructureParam.split(INPUT_PATH_SEPARATOR);
 
 const [parentFolders, fileNameWithExtension] = [
   inputtedStructure.slice(0, -1), 
@@ -49,30 +63,15 @@ const { fileName } = splitExtensionFromFileName(fileNameWithExtension);
 
 const templateFile = fs.readFileSync(
   inputtedTemplatePath ? 
-    path.join(process.cwd(), ...inputtedTemplatePath.split('/')) :
-    path.join(process.cwd(), TEMPLATES_FOLDER, fileName + '.txt'), 
+    path.join(process.cwd(), ...inputtedTemplatePath.split(INPUT_PATH_SEPARATOR)) :
+    path.join(process.cwd(), TEMPLATES_FOLDER, fileName + TEMPLATE_FILE_EXTENSION), 
   'utf8'
 );
 
-const formatFileFromExtraArgs = (templateFile: string, formattedExtraArgs: {}) => {
-  const placeholders = templateFile.match(PLACEHOLDER_REGEX);
-
-  if (!placeholders) {
-    return templateFile;
-  }
-
-  return placeholders.reduce((state, placeholder) => {
-    const formattedExtraArg = formattedExtraArgs[placeholder.slice(1, -1)];
-    return state
-      .replaceAll(placeholder, formattedExtraArg)
-      .replaceAll(PLACEHOLDER_ESCAPE_CHARACTER + formattedExtraArg, placeholder);
-  }, templateFile);
-}
-
-const createFile = (fileNameWithExtension: string, fileName: string, templateFile: string) => {
+const createFile = (fileNameWithExtension: string, templateFile: string) => {
   fs.writeFileSync(
     path.join(currentPath, fileNameWithExtension), 
-    formatFileFromExtraArgs(
+    formatTextFromParameters(
       templateFile, 
       formattedExtraArgs
     )
@@ -80,6 +79,5 @@ const createFile = (fileNameWithExtension: string, fileName: string, templateFil
 };
 createFile(
   fileNameWithExtension, 
-  fileName, 
   templateFile
 );
