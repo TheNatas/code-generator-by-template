@@ -9,7 +9,7 @@ There are two different usages for this library. It's possible to generate a sin
 ### Base command (generate single file)
 - <code>generate-file <pathToFileToCreate> [pathToTemplateFile] [variables]</code>
 
-##### <code><pathToFileToCreate></code> (required)
+##### <code>\<pathToFileToCreate\></code> (required)
 - Ex.: <code>tasks/taskKinds/taskKinds.routes.ts</code>
 Path for the file to be created. If one wants to create a new file on the project nested in a parent folder, this can be specified by adding the parent folder's name before the file name. For example, if one wants to create a CRUD for task kinds in a kanban project and they want to place it inside the tasks folder, they could use <code>generate tasks/taskKinds/taskKinds.routes.ts</code>. That would create the folders as:
 
