@@ -7,18 +7,20 @@ There are two different usages for this library. It's possible to generate a sin
 # Usage
 
 ### Base command (generate single file)
-- <code>generate-file <pathToFileToCreate> [pathToTemplateFile] [variables]</code>
+<code>generate-file <pathToFileToCreate> [pathToTemplateFile] [variables]</code>
 
 ##### <code>\<pathToFileToCreate\></code> (required)
-- Ex.: <code>tasks/taskKinds/taskKinds.routes.ts</code>
+Ex.: <code>tasks/taskKinds/taskKinds.routes.ts</code>
 Path for the file to be created. If one wants to create a new file on the project nested in a parent folder, this can be specified by adding the parent folder's name before the file name. For example, if one wants to create a CRUD for task kinds in a kanban project and they want to place it inside the tasks folder, they could use <code>generate tasks/taskKinds/taskKinds.routes.ts</code>. That would create the folders as:
 
+```
 - tasks
   - taskKinds
     taskKinds.routes.ts
+```
 
 ##### <code>[pathToTemplateFile]</code> (optional)
-- Ex.: <code>templates/template.test.ts</code>
+Ex.: <code>templates/template.test.ts</code>
 If provided, should point to the path of the template to be used on the file creation. If not provided, by default, it looks for a folder named "templates" on the root folder and a file with the same name inputted file name.
 
 ##### <code>[variables]</code> (optional)
@@ -26,21 +28,23 @@ Ex.: <code>camelCase=Test plural=tests</code>
 Variables to be used on the template file. It should have the same key as specified on the template file for it to work.
 
 ### Base command (generate multiple files)
-- <code>generate-structure [--parentFolders] [--templateFolderPath] [--pathToDesignPatternFile] [variables]</code>
+<code>generate-structure [--parentFolders] [--templateFolderPath] [--pathToDesignPatternFile] [variables]</code>
 
 ##### <code>[--parentFolders]</code> (optional)
-- Ex.: <code>tasks/taskKinds</code>
+Ex.: <code>tasks/taskKinds</code>
 If one wants to create some parent folders before the folder names with placeholder, this can be specified by adding the parent folder's name before the file name. For example, if one wants to create a CRUD for task kinds in a kanban project and they want to place it inside the tasks folder, they could use <code>generate tasks/taskKinds/taskKinds.routes.ts</code>. That would create the folders as:
 
+```
 - tasks
   - taskKinds
+```
 
 ##### <code>[--templateFolderPath]</code> (optional)
-- Ex.: <code>templates/template.test.ts</code>
+Ex.: <code>templates/template.test.ts</code>
 If provided, should point to the path of the template folder to be used on the file creation. If not provided, by default, it looks for a folder named "templates" on the root folder.
 
 ##### <code>[--pathToDesignPatternFile]</code> (optional)
-- Ex.: <code>templates/code-generator-design-pattern.json</code>
+Ex.: <code>templates/code-generator-design-pattern.json</code>
 If provided, should point to the path of the design pattern file. If not provided, by default, it looks for a folder named "templates" on the root folder and then a file named code-generator-design-pattern.json.
 
 ##### <code>[variables]</code> (optional)
